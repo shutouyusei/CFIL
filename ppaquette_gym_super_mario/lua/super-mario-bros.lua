@@ -71,13 +71,13 @@ distances = {}
 distances["111"] = 3266 -- 1-1
 distances["123"] = 3266 -- 1-2
 distances["134"] = 2514 -- 1-3
-distances["145"] = 2430 -- 1-4    
+distances["145"] = 2430 -- 1-4
 distances["211"] = 3298 -- 2-1
 distances["223"] = 3266 -- 2-2
 distances["234"] = 3682 -- 2-3
-distances["245"] = 2430 -- 2-4    
+distances["245"] = 2430 -- 2-4
 distances["311"] = 3298 -- 3-1
-distances["322"] = 3442 -- 3-2    
+distances["322"] = 3442 -- 3-2
 distances["333"] = 2498 -- 3-3
 distances["344"] = 2430 -- 3-4
 distances["411"] = 3698 -- 4-1
@@ -114,7 +114,7 @@ if mode == "human" then
 	start_delay = 125
 else
 	-- algo
-	emu.speedmode("maximum")
+	emu.speedmode("normal")
 	skip_frames = 2
 	start_delay = 175
 	send_all_pixels = 1500
