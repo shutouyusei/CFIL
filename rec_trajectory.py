@@ -5,6 +5,7 @@ from ppaquette_gym_super_mario.wrappers.control import SetPlayingMode
 from pynput import keyboard
 
 env = gym.make('ppaquette/SuperMarioBros-1-1-v0')
+
 env.reset()
 ACTION_MAPPING = {
     keyboard.KeyCode(char='w'):0, #right
@@ -60,7 +61,7 @@ if all_observations and all_actions:
     actions_trajectory = np.array(all_actions)
 
     # データを .npz ファイルとして保存
-    save_path = "mario_trajectory.npz"
+    save_path = "data/mario_trajectory.npz"
 
     np.savez_compressed(save_path, observations=obs_trajectory, actions=actions_trajectory)
     print(f"軌跡データを '{save_path}' に保存しました。")

@@ -10,7 +10,7 @@ import os
 env = gym.make('ppaquette/SuperMarioBros-1-1-v0')
 
 # --- データ読み込み ---
-LOAD_PATH = "mario_trajectory.npz" # 保存した .npz ファイルのパス
+LOAD_PATH = "data/mario_trajectory.npz" # 保存した .npz ファイルのパス
 
 # ロードするデータを格納する変数
 loaded_observations = None
