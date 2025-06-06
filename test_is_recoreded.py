@@ -1,16 +1,18 @@
 import gymnasium as gym
-import ppaquette_gym_super_mario
+from mario_env import MarioEnv
 from pynput import keyboard # pynput はもはや不要ですが、キー入力部分を削除するため残します
 import numpy as np
 import threading
 import time
 import os
 
+level = '1-1'
+num = '0'
 # --- 環境と設定 ---
-env = gym.make('ppaquette/SuperMarioBros-1-1-v0')
+env = MarioEnv.create_env(level)
 
 # --- データ読み込み ---
-LOAD_PATH = "data/mario_trajectory.npz" # 保存した .npz ファイルのパス
+LOAD_PATH = "data/"+str(level)+"/mario_trajectory_"+str(num)+".npz" # 保存した .npz ファイルのパス
 
 # ロードするデータを格納する変数
 loaded_observations = None
