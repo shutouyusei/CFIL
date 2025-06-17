@@ -3,9 +3,12 @@ import torch
 import gymnasium as gym
 
 class BaseAgent:
-    def __init__(self, env):
-        self.env = env
+    def __init__(self):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    def initalize(self, env,model):
+        self.env = env
+        self.model = model
         
     def select_action(self,state):
         raise NotImplementedError

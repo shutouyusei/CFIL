@@ -7,3 +7,8 @@ from .cfil_networks import (
 )
 
 from .mario_network import MarioNetwork
+
+from .gail_networks import (
+    PolicyNetwork,
+    Discriminator,
+)

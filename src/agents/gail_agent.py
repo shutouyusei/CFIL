@@ -1,9 +1,9 @@
 import torch
 from .base_agent import BaseAgent
 
-class SimpleAgent(BaseAgent):
+class GAILAgent(BaseAgent):
     def __init__(self):
-        super(SimpleAgent, self).__init__(env)
+        super(GAILAgent, self).__init__(env)
 
     def select_action(self,state):
         obs = torch.from_numpy(state).float().unsqueeze(0).to(self.device)

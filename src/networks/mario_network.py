@@ -27,6 +27,7 @@ class MarioNetwork(BaseNetwork):
             dummy_input = torch.rand(1,*input_shape)
             output = conv_model(dummy_input)
             return int(np.prod(output.shape))
+
         dummy_input_h = 224
         dummy_input_w = 256
         dummy_input_c = 3

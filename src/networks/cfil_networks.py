@@ -7,7 +7,6 @@ class StateEncoder(nn.Module):
         super(StateEncoder,self).__init__()
 
         self.layers = nn.Sequential(
-            #TODO:フォワードモデルのニューラルネットワークの作成をして反実仮想的アプローチの検証s
             nn.Conv2d(input_size, representation_size, kernel_size=5, stride=2, padding=2), # H/2, W/2
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=2, stride=2), # H/4, W/4
