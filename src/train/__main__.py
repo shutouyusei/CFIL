@@ -12,7 +12,7 @@ def get_trainers(setting):
     if setting == '1':
         model = networks.PolicyNet(3,6,32) 
         config = {"learning_rate":0.001,"batch_size":32,"num_epoches":10}
-        dataset = load.load(10,[1])
+        dataset = load.load(5,[1])
         return trainers.BCTrainer(model,dataset,config)
 
     elif setting == '2':
@@ -22,16 +22,15 @@ def get_trainers(setting):
         discriminator = networks.Discriminator(172032,6,64)
         return trainer
 
-def get_path(setting):
-    parent_path = Path(__file__).parent.parent
+def save(setting):
+    parent_path = Path(__file__).parent.parent / Path("data")
+    path = parent_path / Path("mario_bc_model.pth")
     if setting == 1:
-        return  str(parent_path / Path("data/mario_bc_model.pth"))
+        torch.save(model.state_dict(), path)
     elif setting == '2':
-        return str(parent_paht / Path("data/mario_gail_model.pth"))
+        torch.save(model.state_dict(), path)
 
 trainers = get_trainers(sys.argv[1])
-path = get_path(sys.argv[1])
-print(path)
 
 start_time = time.time()
 
@@ -40,7 +39,6 @@ model = trainers.train()
 end_time = time.time()
 elapsed_time = end_time - start_time
 
-torch.save(model.state_dict(), path)
+save(sys.argv[1])
 
-print(f"モデルを '{path}' に保存しました。")
 print(f"実行時間: {elapsed_time:.2f} 秒")
