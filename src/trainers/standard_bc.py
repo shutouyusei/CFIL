@@ -28,6 +28,7 @@ class BCTrainer(BaseTrainer):
 
         pos_weight = torch.tensor([1, 1, 1, 1, 1, 1], dtype=torch.float32)
         self.criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
+        self.criterion.to(self.device)
 
     def train(self):
         print("start training...")
@@ -44,11 +45,11 @@ class BCTrainer(BaseTrainer):
             total_train_loss = 0
             for batch_obs, batch_actions in dataloader:
                 batch_obs = batch_obs.to(self.device)
-                batch_actions = batch_actions.to(self.device)
                 
                 predicted_action_logits = self.model(batch_obs)
                 
                 batch_actions = batch_actions.float() 
+                batch_actions = batch_actions.to(self.device)
                 
                 loss = self.criterion(predicted_action_logits, batch_actions)
                 
