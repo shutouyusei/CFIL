@@ -13,20 +13,28 @@ class KeySetting:
         }
 
         self.current_actions = np.array([0,0,0,0,0,0],dtype=np.int8) 
-        self.listener = keyboard.Listener(on_press=self.on_press, on_release=self.on_release)
+        self.listener = keyboard.Listener(on_press=self.__on_press, on_release=self.__on_release)
 
-    def on_press(self,key):
-        # ACTION_MAPPING に直接キーオブジェクトがある場合
+
+    def start_listen(self):
+        self.listener.start()
+
+    def stop_listen(self):
+        self.listener.stop()
+
+    def get_actions(self):
+        return self.current_actions.tolist()
+
+    def __on_press(self,key):
         if key in self.ACTION_MAPPING:
             self.current_actions[self.ACTION_MAPPING[key]] = 1
         elif isinstance(key, keyboard.KeyCode) and key.char:
-            # char属性を持つキー（文字キー）の場合、charで比較する
             for pyn_key_obj, idx in ACTION_MAPPING.items():
                 if isinstance(pyn_key_obj, keyboard.KeyCode) and pyn_key_obj.char == key.char:
                     self.current_actions[idx] = 1
                     break
 
-    def on_release(self,key):
+    def __on_release(self,key):
         if key in self.ACTION_MAPPING:
             self.current_actions[self.ACTION_MAPPING[key]] = 0
         elif isinstance(key, keyboard.KeyCode) and key.char:
@@ -34,11 +42,3 @@ class KeySetting:
                 if isinstance(pyn_key_obj, keyboard.KeyCode) and pyn_key_obj.char == key.char:
                     self.current_actions[idx] = 0
                     break
-
-    def start_listen(self):
-        self.listener.start()
-    def stop_listen(self):
-        self.listener.stop()
-
-    def get_actions(self):
-        return self.current_actions.tolist()

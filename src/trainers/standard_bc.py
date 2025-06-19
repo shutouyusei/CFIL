@@ -1,32 +1,63 @@
+import numpy as np
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import os
+from torch.utils.data import DataLoader, TensorDataset, random_split
+from sklearn.model_selection import train_test_split
+import torch.nn.functional as F
 from .base_trainer import BaseTrainer
 
 class BCTrainer(BaseTrainer):
-    def __init__(self,learning_rate=0.001):
-        super(BCTrainer,self).__init__(learning_rate=learning_rate)
 
+    def __init__(self,model,dataset,config={"learning_rate":0.001,
+                                            "batch_size":32,
+                                            "num_epoches":10}):
+        super(BCTrainer,self).__init__(model,dataset,config)
+        self.__set_config(config)
+        self.__setting()
 
-    def train(self,model,dataset,num_epoches=10,batch_size=32):
+    def __set_config(self,config):
+        print(config)
+        self.learning_rate = config["learning_rate"]
+        self.batch_size = config["batch_size"]
+        self.num_epoches = config["num_epoches"]
+
+    def __setting(self):
+        self.optimizer = optim.Adam(self.model.parameters(), lr=self.learning_rate)
+
         pos_weight = torch.tensor([1, 1, 1, 1, 1, 1], dtype=torch.float32)
-        criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
-        optimizer = optim.Adam(model.parameters(), lr=self.learning_rate)
+        self.criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
 
+    def train(self):
         print("start training...")
-        dataloader = DataLoader(dataset,batch_size=batch_size,shuffle=True)
-        for epoch in range(num_epoches):
-            total_loss = 0
+        dataloader = DataLoader(self.dataset,batch_size=self.batch_size,shuffle=True)
+
+        for epoch in range(self.num_epoches):
+            total_val_loss = self.__model_train(dataloader)
+            print("epoch:",epoch+1,"loss:",total_val_loss)
+        print("--- BC Training Completed ---")
+        return self.model
+
+    def __model_train(self,dataloader):
+            self.model.train()
+            total_train_loss = 0
             for batch_obs, batch_actions in dataloader:
                 batch_obs = batch_obs.to(self.device)
                 batch_actions = batch_actions.to(self.device)
-                # Forward 
-                predicted_action = model(batch_obs)
-                loss = criterion(predicted_action, batch_actions)
+                
+                predicted_action_logits = self.model(batch_obs)
+                
+                batch_actions = batch_actions.float() 
+                
+                loss = self.criterion(predicted_action_logits, batch_actions)
+                
                 # Backward
-                optimizer.zero_grad()
+                self.optimizer.zero_grad()
                 loss.backward()
-                optimizer.step()
+                self.optimizer.step()
 
-                total_loss += loss.item()
-            avg_loss = total_loss / len(dataloader)
-            print(f"Epoch [{epoch+1}/{num_epoches}], Loss: {avg_loss:.4f}")
-        print("training is completed.")
-        return model
+                total_train_loss += loss.item()
+            
+            avg_train_loss = total_train_loss / len(dataloader)
+            return avg_train_loss

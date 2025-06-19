@@ -1,3 +1,2 @@
-from .base_agent import BaseAgent
-from .simple_agent import SimpleAgent
-from .gail_agent import GAILAgent
+from .base_agent import BaseAgent,AgentFactory
+from .simple_agent import SimpleAgent, SimpleAgentFactory
