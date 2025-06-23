@@ -10,10 +10,10 @@ from .base_trainer import BaseTrainer
 
 class BCTrainer(BaseTrainer):
 
-    def __init__(self,model,dataset,config={"learning_rate":0.001,
+    def __init__(self,model,data_path,config={"learning_rate":0.001,
                                             "batch_size":32,
                                             "num_epoches":10}):
-        super(BCTrainer,self).__init__(model,dataset,config)
+        super(BCTrainer,self).__init__(model,data_path,config)
         self.__set_config(config)
         self.__setting()
 
@@ -32,7 +32,7 @@ class BCTrainer(BaseTrainer):
 
     def train(self):
         print("start training...")
-        dataloader = DataLoader(self.dataset,batch_size=self.batch_size,shuffle=True)
+        dataloader = DataLoader(self.data_path,batch_size=self.batch_size,shuffle=True)
 
         for epoch in range(self.num_epoches):
             total_val_loss = self.__model_train(dataloader)

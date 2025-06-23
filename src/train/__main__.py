@@ -12,12 +12,12 @@ def get_trainers(setting):
     if setting == '1':
         model = networks.PolicyNet(3,6,32) 
         config = {"learning_rate":0.001,"batch_size":32,"num_epoches":10}
-        dataset = load.load(5,[1])
+        dataset = load.load(5,1)
         return trainers.BCTrainer(model,dataset,config)
 
     elif setting == '2':
         trainer = trainers.GAILTrainer(learning_rate=0.001,gamma=0.99,gail_lambda=0.1)
-        obs_data, action_data = load.__load_data(10,[1])
+        obs_data, action_data = load.__load_data(10,1)
         policy_network = networks.PolicyNet(3,6,32)
         discriminator = networks.Discriminator(172032,6,64)
         return trainer
