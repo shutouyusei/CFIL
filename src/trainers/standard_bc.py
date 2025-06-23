@@ -41,24 +41,24 @@ class BCTrainer(BaseTrainer):
         return self.model
 
     def __model_train(self,dataloader):
-            self.model.train()
-            total_train_loss = 0
-            for batch_obs, batch_actions in dataloader:
-                batch_obs = batch_obs.to(self.device)
-                
-                predicted_action_logits = self.model(batch_obs)
-                
-                batch_actions = batch_actions.float() 
-                batch_actions = batch_actions.to(self.device)
-                
-                loss = self.criterion(predicted_action_logits, batch_actions)
-                
-                # Backward
-                self.optimizer.zero_grad()
-                loss.backward()
-                self.optimizer.step()
-
-                total_train_loss += loss.item()
+        self.model.train()
+        total_train_loss = 0
+        for batch_obs, batch_actions in dataloader:
+            batch_obs = batch_obs.to(self.device)
             
-            avg_train_loss = total_train_loss / len(dataloader)
-            return avg_train_loss
+            predicted_action_logits = self.model(batch_obs)
+            
+            batch_actions = batch_actions.float() 
+            batch_actions = batch_actions.to(self.device)
+            
+            loss = self.criterion(predicted_action_logits, batch_actions)
+            
+            # Backward
+            self.optimizer.zero_grad()
+            loss.backward()
+            self.optimizer.step()
+
+            total_train_loss += loss.item()
+        
+        avg_train_loss = total_train_loss / len(dataloader)
+        return avg_train_loss
