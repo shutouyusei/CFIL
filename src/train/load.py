@@ -6,7 +6,15 @@ from torch.utils.data import DataLoader,TensorDataset
 class Load:
     def load(self,size=1,stage=1):
         obs,action = self.__load_data(size,stage)
+        obs,action = self.__to_tensor(obs,action)
         return TensorDataset (obs,action)
+
+    def __to_tensor(self,obs,action):
+        obs_data = torch.from_numpy(obs).float() / 255.0
+        obs_data = obs_data.permute(0, 3, 1, 2)
+        act_data = torch.from_numpy(action).type(torch.float32)
+        print("finish to tensor")
+        return obs_data,act_data
 
     def __load_data(self,size=1,stage=1):
         DATA_DIR ="../data/"
@@ -30,9 +38,6 @@ class Load:
 
         reshaped_obs = observations.reshape(observations.shape[0] * observations.shape[1],observations.shape[2],observations.shape[3],observations.shape[4])
         reshaped_act = actions.reshape(actions.shape[0] * actions.shape[1],actions.shape[2])
+        print("finish load")
+        return reshaped_obs,reshaped_act
 
-        obs_data = torch.from_numpy(reshaped_obs).float() / 255.0
-        obs_data = obs_data.permute(0, 3, 1, 2)
-        act_data = torch.from_numpy(reshaped_act).type(torch.float32)
-
-        return obs_data,act_data
