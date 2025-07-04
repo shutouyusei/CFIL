@@ -3,8 +3,7 @@ import numpy as np
 import torch
 from torch.utils.data import DataLoader,TensorDataset 
 
-def load(stage=1,index=0):
-    DATA_DIR ="../data/"
+def load(stage=1,index=0,DATA_DIR="../data/success/"):
     SAMPLE_SIZE = 500
     observations = np.empty((SAMPLE_SIZE,224,256,3))
     actions = np.empty((SAMPLE_SIZE,6))

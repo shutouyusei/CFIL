@@ -16,8 +16,13 @@ class Load:
         print("finish to tensor")
         return obs_data,act_data
 
-    def __load_data(self,size=1,stage=1):
+    def __load_data(self,size=1,stage=1,is_success=True):
         DATA_DIR ="../data/"
+        if is_success:
+            DATA_DIR = "../data/success/"
+        else:
+            DATA_DIR = "../data/failure/"
+
         SAMPLE_SIZE = 500
         num_of_file = stage * size
         observations = np.empty((num_of_file,SAMPLE_SIZE,224,256,3))
@@ -32,9 +37,6 @@ class Load:
                     observations[index] = data['observations']
                     actions[index] = data['actions']
                     num +=1
-                else:
-                    print(f"level {level} のデータをロードしました。")
-                    break
 
         reshaped_obs = observations.reshape(observations.shape[0] * observations.shape[1],observations.shape[2],observations.shape[3],observations.shape[4])
         reshaped_act = actions.reshape(actions.shape[0] * actions.shape[1],actions.shape[2])

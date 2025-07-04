@@ -25,7 +25,7 @@ class Run:
         agent = self.agent_factory.create(model,env)
 
         traj,total_reward = agent.roolout()
-        print("total_reward",total_reward)
+        return traj,total_reward
 
     def __create_env(self,level):
         if level != None:
@@ -45,5 +45,4 @@ class Run:
         network.to(device)
         network.load_state_dict(torch.load(path, map_location=device))
         network.eval()
-        print(path)
         return network 

@@ -114,7 +114,7 @@ if mode == "human" then
 	start_delay = 125
 else
 	-- algo
-	emu.speedmode("normal")
+	emu.speedmode("maximum")
 	skip_frames = 2
 	start_delay = 175
 	send_all_pixels = 1500

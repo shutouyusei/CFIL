@@ -11,8 +11,8 @@ def get_trainers(setting):
     load = Load()
     if setting == '1':
         model = networks.PolicyNet(3,6,32) 
-        config = {"learning_rate":0.001,"batch_size":32,"num_epoches":10}
-        dataset = load.load(10,1)
+        config = {"learning_rate":0.001,"batch_size":32,"num_epoches":20}
+        dataset = load.load(10,4)
         return trainers.BCTrainer(model,dataset,config)
 
     elif setting == '2':
